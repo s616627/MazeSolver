@@ -25,7 +25,7 @@ move(right,	R, C, R, NC) :- NR is C - 1.
 % valid_cell(+Maze, +Row, +Col)
 valid_cell(Maze, Row, Col) :-
     Row >= 0, Col >= 0,
-    nth0(Row, Maze, R), nth0(Col, R _).
+    nth0(Row, Maze, R), nth0(Col, R, _).
 
 % get_cell(+Maze, +Row, +Col, -Cell)
 get_cell(Maze, Row, Col, Cell) :-
