@@ -20,7 +20,7 @@ dfs(Maze, Row, Col, Visited, [Move|Moves]) :-
 move(up,	R, C, NR, C) :- NR is R - 1.
 move(down,	R, C, NR, C) :- NR is R + 1.
 move(left,	R, C, R, nC) :- NR is C - 1.
-move(right,	R, C, R, NC) :- NR is C - 1.
+move(right,	R, C, R, NC) :- NR is C + 1.
 
 % valid_cell(+Maze, +Row, +Col)
 valid_cell(Maze, Row, Col) :-
