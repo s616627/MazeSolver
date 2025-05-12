@@ -78,3 +78,7 @@ get_cell(Maze, Row, Col, Cell) :-
     nth0(Col, R, Cell).
 
 fetch the contents of a cell at (Row, Col)
+
+
+5/11 8:29PM
+changed the move right function to be correct
