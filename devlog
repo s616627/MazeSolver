@@ -4,3 +4,77 @@ Using Online Tutorials, I made a program. It has some syntax errors so I will fi
 
 5/11 4:02 PM
 Added a comma at line 28
+
+5/11 8:17 PM
+Explanation of Code:
+
+find_exit(Maze, Actions).
+
+Maze is a grid(2D array)
+
+Actions is a list like [right, down, left] that moves from 's' (start) to 'e' (end)
+
+prolog should generate a solution or verify a given one
+
+
+simplified version of the logic
+
+find_exit(Maze, Actions) :-
+  find_start(Maze, 0, 0, StartRow, StartCol),
+  dfs(Maze, StartRow, StartCol, [], Actions).
+
+finds a start location 's' in the maze
+then uses a depth first search to find the end 'e'.
+
+
+find_start([Row|_], 0, Col, 0, Col) :- nth0(Col, Row, s), !.
+find_start([_|Rest], R, _, SRow, SCol) :-
+    R2 is R + 1,
+    find_start(Rest, R2, 0, SRow, SCol).
+find_start([Row|Rest], R, C, SRow, SCol) :-
+    C2 is C + 1,
+    (nth0(C2, Row, s) -> SRow = R, SCol = C2
+    ; find_start([Row|Rest], R, C2, SRow, SCol)).
+
+It checks each row and column until it finds the s and returns the coordinates
+
+
+dfs(Maze, Row, Col, Visited, []) :-
+    get_cell(Maze, Row, Col, e),
+    \+ member((Row, Col), Visited).
+
+base case for the depth first search. If we find e and it hasn't been visited then we find a solution
+
+
+dfs(Maze, Row, Col, Visited, [Move|Moves]) :-
+    get_cell(Maze, Row, Col, Cell),
+    Cell \= w, Cell \= n,
+    \+ member((Row, Col), Visited),
+    move(Move, Row, Col, NewRow, NewCol),
+    valid_cell(Maze, NewRow, NewCol),
+    dfs(Maze, NewRow, NewCol, [(Row, Col)|Visited], Moves).
+
+recursively check every cell that is not a wall or hasn't been visited
+check each direction and if its the solution then build the path by prepending Move
+
+
+move(up,    R, C, NR, C) :- NR is R - 1.
+move(down,  R, C, NR, C) :- NR is R + 1.
+move(left,  R, C, R, NC) :- NC is C - 1.
+move(right, R, C, R, NC) :- NC is C + 1.
+
+used for directions
+
+
+valid_cell(Maze, Row, Col) :-
+    Row >= 0, Col >= 0,
+    nth0(Row, Maze, R), nth0(Col, R, _).
+
+checks if cell is within bounds of maze
+
+
+get_cell(Maze, Row, Col, Cell) :-
+    nth0(Row, Maze, R),
+    nth0(Col, R, Cell).
+
+fetch the contents of a cell at (Row, Col)
