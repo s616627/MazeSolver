@@ -81,4 +81,8 @@ fetch the contents of a cell at (Row, Col)
 
 
 5/11 8:29PM
-changed the move right function to be correct
+changed the move right part to be correct
+
+
+5/11 8:46 PM
+changed the move left part to be correct
